@@ -1,15 +1,3 @@
----
-title: "论文笔记——Wireless SDN Mobile Ad Hoc Network:from Theory to Practice."
-date: 2022-03-03T14:18:06+08:00
-draft: false
-math: true
-tags: ["SDN","Paper"]
-categories: ["Note","SDN"]
-summary: "Wireless SDN Mobile Ad Hoc Network:from Theory to Practice.无线SDN移动自组网:从理论到实践。"
-typora-copy-images-to: ..\..\static\image\Paper
-typora-root-url: ..\..\static
----
-
 # Wireless SDN Mobile Ad Hoc Network:from Theory to Practice.
 
 ## 论文概况
