@@ -28,7 +28,7 @@
 
 ### 3.1 问题表述
 
-​	给定一个用户𝑢和一个候选新闻$$n^c$$，我们需要计算相关性分数𝑧来衡量用户𝑢对候选新闻内容$$n^c$$的兴趣。 然后根据相关性得分对不同的候选新闻进行排名并推荐给用户𝑢。 用户𝑢与他/她点击的新闻集相关联。 每个新闻 𝑛 都与其文本 𝑇 和文本中的实体 𝐸 相关联。 此外，还有一个知识图 G 用于提供实体之间的相关性。 它包含实体和实体之间的关系。 G 中的每个实体 𝑒 与其嵌入相关联，e 基于知识图进行预训练。 在我们的方法中，我们只使用实体之间的链接来表示它们的相关性，而不使用特定的关系（例如，located_at）。
+​	给定一个用户𝑢和一个候选新闻$n^c$，我们需要计算相关性分数𝑧来衡量用户𝑢对候选新闻内容$n^c$的兴趣。 然后根据相关性得分对不同的候选新闻进行排名并推荐给用户𝑢。 用户𝑢与他/她点击的新闻集相关联。 每个新闻 𝑛 都与其文本 𝑇 和文本中的实体 𝐸 相关联。 此外，还有一个知识图 G 用于提供实体之间的相关性。 它包含实体和实体之间的关系。 G 中的每个实体 𝑒 与其嵌入相关联，e 基于知识图进行预训练。 在我们的方法中，我们只使用实体之间的链接来表示它们的相关性，而不使用特定的关系（例如，located_at）。
 
 ### 3.2 KIM的框架
 
@@ -36,45 +36,45 @@
 
 ### 3.3 知识感知新闻协同编码器（knowledge-aware news co-encoder）
 
-​	在本节中，我们介绍了知识感知新闻协同编码器的框架，它从用户的文本和文本中的实体中交互式地学习用户点击的新闻$$n_u$$和候选新闻$$n_c$$的表示。 如图 3 所示，它包含三个子模块。 第一个是知识协同编码器（记为 $$\Phi_{k}$$），对于点击新闻$$n_u$$和候选新闻$$n_c$$，它基于知识图谱从实体之间的相关性中交互式地学习基于知识的表示$$\mathbf{k}^{u} \in R^{d_{k}}$$和 $$\mathbf{k}^{c} \in \mathcal{R}^{d_{k}}$$：
+​	在本节中，我们介绍了知识感知新闻协同编码器的框架，它从用户的文本和文本中的实体中交互式地学习用户点击的新闻$n_u$和候选新闻$n_c$的表示。 如图 3 所示，它包含三个子模块。 第一个是知识协同编码器（记为 $\Phi_{k}$），对于点击新闻$n_u$和候选新闻$n_c$，它基于知识图谱从实体之间的相关性中交互式地学习基于知识的表示$\mathbf{k}^{u} \in R^{d_{k}}$和 $\mathbf{k}^{c} \in \mathcal{R}^{d_{k}}$：
 $$
 \left[\mathbf{k}^{u}, \mathbf{k}^{c}\right]=\Phi_{k}\left(E^{u}, E^{c}\right)\tag 1
 $$
-​	其中$$d_k$$表示基于知识的新闻表示维度，$$E^u$$和$$E^c$$分别表示新闻$$n^u$$和$$n^c$$中的实体。 第二个是语义协同编码器（表示为 $$\Phi_{t}$$），它交互式地学习基于语义的表示$$ \mathbf{t}^{u} \in R^{d_{t}}$$和$$ \mathbf{t}^{c} \in R^{d_{t}}$$，用于新闻$$n_u$$和$$n_c$$，以根据文本之间的语义相关性来模拟用户对候选新闻的兴趣：
+​	其中$d_k$表示基于知识的新闻表示维度，$E^u$和$E^c$分别表示新闻$n^u$和$n^c$中的实体。 第二个是语义协同编码器（表示为 $\Phi_{t}$），它交互式地学习基于语义的表示$ \mathbf{t}^{u} \in R^{d_{t}}$和$ \mathbf{t}^{c} \in R^{d_{t}}$，用于新闻$n_u$和$n_c$，以根据文本之间的语义相关性来模拟用户对候选新闻的兴趣：
 $$
 \left[\mathbf{t}^{u}, \mathbf{t}^{c}\right]=\Phi_{t}\left(T^{u}, T^{c}\right)\tag 2
 $$
-​	其中$$d_t$$表示基于语义的新闻表示维度，$$T^u$$和$$T^u$$分别表示新闻$$n_u$$和$$n_c$$的文本。 最后，我们投影同一个新闻的基于知识和语义的表示来学习统一的新闻表示：
+​	其中$d_t$表示基于语义的新闻表示维度，$T^u$和$T^u$分别表示新闻$n_u$和$n_c$的文本。 最后，我们投影同一个新闻的基于知识和语义的表示来学习统一的新闻表示：
 $$
 \mathbf{n}^{u}=\mathbf{P}_{n}\left[\mathbf{t}^{u} ; \mathbf{k}^{u}\right], \quad \mathbf{n}^{c}=\mathbf{P}_{n}\left[\mathbf{t}^{c} ; \mathbf{k}^{c}\right]\tag 3
 $$
-​	其中$$\mathbf{n}^{u} \in R^{d_{n}}$$表示用户点击新闻$$n_u$$的知识感知表示，$$\mathbf{n}^{c} \in R^{d_{n}}$$表示候选新闻的相应知识感知表示$$n_c$$ ，$$d_n$$是新闻表示维度，[·; ·] 表示连接操作，$$\mathbf{P}_{n} \in R^{d_{n} \times\left(d_{t}+d_{k}\right)}$$是可训练的投影矩阵。
+​	其中$\mathbf{n}^{u} \in R^{d_{n}}$表示用户点击新闻$n_u$的知识感知表示，$\mathbf{n}^{c} \in R^{d_{n}}$表示候选新闻的相应知识感知表示$n_c$ ，$d_n$是新闻表示维度，[·; ·] 表示连接操作，$\mathbf{P}_{n} \in R^{d_{n} \times\left(d_{t}+d_{k}\right)}$是可训练的投影矩阵。
 
 #### 3.3.1 知识协同编码器
 
-​	我们介绍了所提出的知识协同编码器，它交互式地学习用户点击新闻$$n_u$$和候选新闻$$n_c$$的基于知识的表示。 它旨在借助知识图谱G更好地表示这些新闻，以根据用户点击新闻和候选新闻中实体$$E^u$$和$$E^c$$之间的相关性进行兴趣匹配。如图4所示，它包含三个组件。 首先，为了总结$$E^u$$或$$E^c$$中每个实体在 𝐾 跳内的邻居的信息，我们首先利用图注意 (GAT) 网络 [28] 堆叠 𝐾 层来学习它们的表示，分别表示为$$\mathbf{M}_{u}=\left\{\mathbf{m}_{i}^{u}\right\}_{i=1}^{D} \in \mathcal{R}^{d_{k} \times D} \text { and } \mathbf{M}_{c}=\left\{\mathbf{m}_{i}^{c}\right\}_{i=1}^{D} \in \mathcal{R}^{d_{k} \times D}$$，其中𝐷是新闻中实体的数量。
+​	我们介绍了所提出的知识协同编码器，它交互式地学习用户点击新闻$n_u$和候选新闻$n_c$的基于知识的表示。 它旨在借助知识图谱G更好地表示这些新闻，以根据用户点击新闻和候选新闻中实体$E^u$和$E^c$之间的相关性进行兴趣匹配。如图4所示，它包含三个组件。 首先，为了总结$E^u$或$E^c$中每个实体在 𝐾 跳内的邻居的信息，我们首先利用图注意 (GAT) 网络 [28] 堆叠 𝐾 层来学习它们的表示，分别表示为$\mathbf{M}_{u}=\left\{\mathbf{m}_{i}^{u}\right\}_{i=1}^{D} \in \mathcal{R}^{d_{k} \times D} \text { and } \mathbf{M}_{c}=\left\{\mathbf{m}_{i}^{c}\right\}_{i=1}^{D} \in \mathcal{R}^{d_{k} \times D}$，其中𝐷是新闻中实体的数量。
 
 ​	第二个是本文提出的堆叠图协同注意（GCAT）网络。 一般来说，一个实体通常与知识图谱上的多个实体具有丰富的相关性 [6, 29]。
 
-​	此外，实体之间的相关性通常提供不同的信息量来模拟点击新闻和候选新闻之间的相关性以进行兴趣匹配。例如，给定一条点击的新闻“Style is the trending song today”。和一个候选新闻“Movie Cats是 Netflix 中最受欢迎的电影。”，实体“Movie Cats”在知识图谱上有许多邻居实体，例如它的导演“James”、首席演员“Hooper”、首席女演员“Taylor”等。只有实体“Taylor”对点击新闻和候选新闻之间的相关性建模具有信息性，因为它也是点击新闻中实体“Song Style”的歌手。为了更好地选择实体之间的信息相关性以将候选新闻与用户兴趣相匹配，我们提出了一个图共同注意网络（GCAT）堆叠的𝐾层来学习新闻中实体的匹配感知表示$$n^u$$和$$n^c$$。以新闻$$n^u$$中的实体 𝑒 为例，图 5 所示的第 𝑙 图共同注意网络通过聚合新闻中的实体 $$n^c$$引导的邻居的表示来学习其表示。更具体地说，我们首先将多头自注意力网络 [27] 应用于邻居实体的表示，它是由第(𝑙 - 1)GCAT 网络生成的，以模拟不同邻居实体之间的概念相关性。接下来，我们提出用一个匹配感知注意网络来聚合实体 𝑒 的邻居实体，基于它们与新闻$$n^c$$中的实体的相关性，由相关矩阵$$\mathbf{I}_{u} \in \mathcal{R}^{D \times B}$$测量：
+​	此外，实体之间的相关性通常提供不同的信息量来模拟点击新闻和候选新闻之间的相关性以进行兴趣匹配。例如，给定一条点击的新闻“Style is the trending song today”。和一个候选新闻“Movie Cats是 Netflix 中最受欢迎的电影。”，实体“Movie Cats”在知识图谱上有许多邻居实体，例如它的导演“James”、首席演员“Hooper”、首席女演员“Taylor”等。只有实体“Taylor”对点击新闻和候选新闻之间的相关性建模具有信息性，因为它也是点击新闻中实体“Song Style”的歌手。为了更好地选择实体之间的信息相关性以将候选新闻与用户兴趣相匹配，我们提出了一个图共同注意网络（GCAT）堆叠的𝐾层来学习新闻中实体的匹配感知表示$n^u$和$n^c$。以新闻$n^u$中的实体 𝑒 为例，图 5 所示的第 𝑙 图共同注意网络通过聚合新闻中的实体 $n^c$引导的邻居的表示来学习其表示。更具体地说，我们首先将多头自注意力网络 [27] 应用于邻居实体的表示，它是由第(𝑙 - 1)GCAT 网络生成的，以模拟不同邻居实体之间的概念相关性。接下来，我们提出用一个匹配感知注意网络来聚合实体 𝑒 的邻居实体，基于它们与新闻$n^c$中的实体的相关性，由相关矩阵$\mathbf{I}_{u} \in \mathcal{R}^{D \times B}$测量：
 $$
 \mathbf{I}_{u}=\mathbf{M}_{c}^{T} \mathbf{W}_{c}^{c} \hat{\mathbf{G}}_{l}\tag 4
 $$
-​	其中$$\hat{\mathbf{G}}_{l}=\left\{\hat{\mathrm{g}}_{i}^{l}\right\}_{i=1}^{B} \in \mathcal{R}^{d_{k} \times B}$$表示自注意网络生成的邻居实体的表示，𝐵 表示邻居的数量，$$\mathbf{W}_{c}^{c} \in R^{d_{k} \times d_{k}}$$是可训练的权重。 然后相邻实体的注意力向量$$\mathbf{v}^{u} \in \mathcal{R}^{B}$$计算为：
+​	其中$\hat{\mathbf{G}}_{l}=\left\{\hat{\mathrm{g}}_{i}^{l}\right\}_{i=1}^{B} \in \mathcal{R}^{d_{k} \times B}$表示自注意网络生成的邻居实体的表示，𝐵 表示邻居的数量，$\mathbf{W}_{c}^{c} \in R^{d_{k} \times d_{k}}$是可训练的权重。 然后相邻实体的注意力向量$\mathbf{v}^{u} \in \mathcal{R}^{B}$计算为：
 $$
 \mathbf{v}^{u}=\mathbf{q}_{e}^{T} \cdot \tanh \left(\mathbf{W}_{s}^{c} \hat{\mathbf{G}}^{l}+\mathbf{W}_{h}^{c} \mathbf{M}_{c} f\left(\mathbf{I}_{u}\right)\right)\tag 5
 $$
-​	其中𝑓表示对输入矩阵的每个列向量进行归一化的softmax激活，$$\mathbf{q}_{e} \in \mathcal{R}^{d_{q}}$$表示可训练的注意力查询，$$d_q$$表示其维度，$$\mathbf{W}_{s}^{c} \in \mathcal{R}^{d_{q} \times d_{k}}$$和$$\mathbf{W}_{h}^{c} \in \mathcal{R}^{d_{q} \times d_{k}}$$是可训练的权重。 然后我们将实体𝑒的邻居聚合成一个统一的表示$$\hat{\mathbf{g}}^{l} \in \mathcal{R}^{d_{k}}$$：
+​	其中𝑓表示对输入矩阵的每个列向量进行归一化的softmax激活，$\mathbf{q}_{e} \in \mathcal{R}^{d_{q}}$表示可训练的注意力查询，$d_q$表示其维度，$\mathbf{W}_{s}^{c} \in \mathcal{R}^{d_{q} \times d_{k}}$和$\mathbf{W}_{h}^{c} \in \mathcal{R}^{d_{q} \times d_{k}}$是可训练的权重。 然后我们将实体𝑒的邻居聚合成一个统一的表示$\hat{\mathbf{g}}^{l} \in \mathcal{R}^{d_{k}}$：
 $$
 \hat{\mathbf{g}}^{l}=\sum_{i=1}^{B} \lambda_{i}^{u} \hat{\mathbf{g}}_{i}^{l}, \quad \lambda_{i}^{u}=\frac{\exp \left(v_{i}^{u}\right)}{\sum_{j=1}^{B} \exp \left(v_{j}^{u}\right)}\tag 6
 $$
-​	其中$$v_i^u$$是向量$$v^u$$的第𝑖元素，$$\lambda_{i}^{u}$$表示第𝑖邻居实体的注意力权重。最后，第 𝑙 GCAT 网络生成的实体 𝑒 的表示$$\mathrm{g}^{l} \in \mathcal{R}^{d_{k}}$$表示为：$$\mathbf{g}^{l}=P_{e}\left[\hat{\mathbf{g}}^{l} ; \mathbf{g}^{\mathbf{l}-1}\right]$$，其中$$\mathbf{P}_{e} \in \mathcal{R}^{d_{k} \times 2 d_{k}}$$ 是投影矩阵。对于用户点击新闻中的实体，通过捕获他们在𝐾跳内的邻居和候选实体之间的相关性，堆叠的 GCAT 网络可以学习匹配感知表示$$\mathbf{s}_{u}=\left\{\mathbf{s}_{i}^{u}\right\}_{i=1}^{D} \in R^{d_{k} \times D}$$，其中$$s_i^u$$是点击新闻$$n^u$$中第𝑖个实体的表示。以一种对称的方式，我们可以从他们的邻居和点击新闻中的实体之间的相关性学习候选新闻中实体的匹配感知表示$$\mathbf{S}_{c}=\left\{\mathbf{s}_{i}^{c}\right\}_{i=1}^{D} \in R^{d_{k} \times D}$$，其中$$c^c_i$$是候选新闻$$n^c$$中的第i个实体。
+​	其中$v_i^u$是向量$v^u$的第𝑖元素，$\lambda_{i}^{u}$表示第𝑖邻居实体的注意力权重。最后，第 𝑙 GCAT 网络生成的实体 𝑒 的表示$\mathrm{g}^{l} \in \mathcal{R}^{d_{k}}$表示为：$\mathbf{g}^{l}=P_{e}\left[\hat{\mathbf{g}}^{l} ; \mathbf{g}^{\mathbf{l}-1}\right]$，其中$\mathbf{P}_{e} \in \mathcal{R}^{d_{k} \times 2 d_{k}}$ 是投影矩阵。对于用户点击新闻中的实体，通过捕获他们在𝐾跳内的邻居和候选实体之间的相关性，堆叠的 GCAT 网络可以学习匹配感知表示$\mathbf{s}_{u}=\left\{\mathbf{s}_{i}^{u}\right\}_{i=1}^{D} \in R^{d_{k} \times D}$，其中$s_i^u$是点击新闻$n^u$中第𝑖个实体的表示。以一种对称的方式，我们可以从他们的邻居和点击新闻中的实体之间的相关性学习候选新闻中实体的匹配感知表示$\mathbf{S}_{c}=\left\{\mathbf{s}_{i}^{c}\right\}_{i=1}^{D} \in R^{d_{k} \times D}$，其中$c^c_i$是候选新闻$n^c$中的第i个实体。
 
-​	第三个是实体共同注意网络。 点击新闻和候选新闻中的实体通常具有不同的兴趣匹配信息量。 例如，给定一条点击新闻“Style 是本周 iTunes 中的热门歌曲”。 和候选新闻“movie Cats是 Netflix 中最受欢迎的电影。”，实体“Song Style”比实体“iTunes”更能将用户兴趣与候选新闻匹配，因为实体“Song Style”候选新闻中的实体“movie Cats”具有固有的相关性。 因此，通过捕获实体之间的相关性，我们应用实体共同注意网络来交互式地学习新闻$$n^u$$和$$n^c$$的基于知识的表示。 详细地说，我们首先计算一个亲和矩阵$$\mathbf{C}_{e} \in \mathcal{R}^{D \times D}$$来衡量新闻中实体之间的相关性$$n^u$$和$$n^c$$：
+​	第三个是实体共同注意网络。 点击新闻和候选新闻中的实体通常具有不同的兴趣匹配信息量。 例如，给定一条点击新闻“Style 是本周 iTunes 中的热门歌曲”。 和候选新闻“movie Cats是 Netflix 中最受欢迎的电影。”，实体“Song Style”比实体“iTunes”更能将用户兴趣与候选新闻匹配，因为实体“Song Style”候选新闻中的实体“movie Cats”具有固有的相关性。 因此，通过捕获实体之间的相关性，我们应用实体共同注意网络来交互式地学习新闻$n^u$和$n^c$的基于知识的表示。 详细地说，我们首先计算一个亲和矩阵$\mathbf{C}_{e} \in \mathcal{R}^{D \times D}$来衡量新闻中实体之间的相关性$n^u$和$n^c$：
 $$
 \mathbf{C}_{e}=\mathbf{S}_{c}^{T} \mathbf{W}_{c}^{k} \mathbf{S}_{u}\tag 7
 $$
-​	其中$$\mathbf{W}_{c}^{k} \in \mathcal{R}^{d_{k} \times d_{k}}$$是可训练的权重。 然后我们计算新闻$$n^u$$和$$n^c$$中实体的注意力向量$$a^u$$，$$\mathbf{a}^{c} \in \mathcal{R}^{D}$$：
+​	其中$\mathbf{W}_{c}^{k} \in \mathcal{R}^{d_{k} \times d_{k}}$是可训练的权重。 然后我们计算新闻$n^u$和$n^c$中实体的注意力向量$a^u$，$\mathbf{a}^{c} \in \mathcal{R}^{D}$：
 $$
 \mathbf{a}^{u}=\mathbf{q}_{k}^{T} \cdot \tanh \left(\mathbf{W}_{s}^{k} \mathbf{S}_{u}+\mathbf{W}_{h}^{k} \mathbf{S}_{c} f\left(\mathbf{C}_{e}\right)\right)\tag 8
 $$
@@ -83,35 +83,35 @@ $$
 \mathbf{a}^{c}=\mathbf{q}_{k}^{T} \cdot \tanh \left(\mathbf{W}_{s}^{k} \mathbf{S}_{c}+\mathbf{W}_{h}^{k} \mathbf{S}_{u} f\left(\mathbf{C}_{e}^{T}\right)\right)\tag 9
 $$
 
-​	其中$$\mathbf{q}_{k} \in \mathcal{R}^{d_{q}}$$是可训练的注意力查询，$$\mathbf{W}_{s}^{k} \in \mathcal{R}^{d_{q} \times d_{k}},\mathbf{W}_{h}^{k} \in \mathcal{R}^{d_{q} \times d_{k}}$$是可训练的权重。 最后，我们通过分别聚合实体获得点击新闻和候选新闻的基于知识的表示$$\mathbf{k}^{u} \in \mathcal{R}^{d_{k}} $$和$$ \mathbf{k}^{c} \in \mathcal{R}^{d_{k}}$$：
+​	其中$\mathbf{q}_{k} \in \mathcal{R}^{d_{q}}$是可训练的注意力查询，$\mathbf{W}_{s}^{k} \in \mathcal{R}^{d_{q} \times d_{k}},\mathbf{W}_{h}^{k} \in \mathcal{R}^{d_{q} \times d_{k}}$是可训练的权重。 最后，我们通过分别聚合实体获得点击新闻和候选新闻的基于知识的表示$\mathbf{k}^{u} \in \mathcal{R}^{d_{k}} $和$ \mathbf{k}^{c} \in \mathcal{R}^{d_{k}}$：
 $$
-\mathbf{k}^{u} &=\sum_{i=1}^{D} \alpha_{i}^{u} \mathbf{s}_{i}^{u}, & \alpha_{i}^{u} &=\frac{\exp \left(a_{i}^{u}\right)}{\sum_{j=1}^{D} \exp \left(a_{j}^{u}\right)}\\ \tag {10}
-$$
-
-$$
-\mathbf{k}^{c} &=\sum_{i=1}^{D} \alpha_{i}^{c} \mathbf{s}_{i}^{c}, & \alpha_{i}^{c} &=\frac{\exp \left(a_{i}^{c}\right)}{\sum_{j=1}^{D} \exp \left(a_{j}^{c}\right)}\\ \tag{11}
+\mathbf{k}^{u}=\sum_{i=1}^{D} \alpha_{i}^{u} s_{i}^{u}, \quad \alpha_{i}^{u}=\frac{\exp \left(a_{i}^{u}\right)}{\sum_{j=1}^{D} \exp \left(a_{j}^{u}\right)}\tag {10}
 $$
 
-其中$$a_i^u$$和$$a_i^c$$分别表示新闻$$n^u$$和$$n^c$$中第𝑖个实体的注意力权重。
+$$
+\mathbf{k}^{c}=\sum_{i=1}^{D} \alpha_{i}^{c} {s}_{i}^{c}, \quad \alpha_{i}^{c}=\frac{\exp \left(a_{i}^{c}\right)}{\sum_{j=1}^{D} \exp \left(a_{j}^{c}\right)}\tag{11}
+$$
+
+其中$a_i^u$和$a_i^c$分别表示新闻$n^u$和$n^c$中第𝑖个实体的注意力权重。
 
 #### 3.3.2语义协同编码器
 
-​	如图 4 所示，语义协编码器交互式地学习用户点击新闻$$n^u$$和候选新闻$$n^c$$的基于语义的表示。它旨在通过文本之间的语义相关性（$$T^u$$和$$T^c$$）更好地模拟用户对候选新闻的兴趣。我们首先独立学习文本$$T^u$$和$$T^c$$中单词的上下文表示。更具体地说，以文本$$T^u$$为例，我们首先通过词嵌入层将其转换为嵌入向量序列$$\mathbf{T}_{u} \in \mathcal{R}^{d_{g} \times M}$$，其中$$d_g$$表示词嵌入维度，𝑀表示$$T^u$$中的词数。接下来，由于局部和全局上下文对于语义建模 [33, 37] 都很重要，我们将 CNN 网络 [11] 和transformer网络 [27] 应用于$$T^u$$分别学习局部和全局上下文词表示，即$$\mathbf{L}_{u} \in \mathcal{R}^{d_{t} \times M} $$和$$\mathbf{J}_{u} \in \mathcal{R}^{d_{t} \times M}$$。然后，我们添加每个单词的局部和全局上下文表示，并获得它们的统一表示 $$\mathbf{H}_{u}=\left\{\mathbf{h}_{i}^{u}\right\}_{i=1}^{M} \in \mathcal{R}^{d_{t} \times M}$$，这里$$\mathbf{h}_{i}^{u} \in \mathcal{R}^{d_{t}}$$是$$T^u$$中第 𝑖 个词的表示。此外，对于$$T^c$$，我们可以以相同的方式学习上下文词表示$$\mathbf{H}_{c}=\left\{\mathbf{h}_{i}^{c}\right\}_{i=1}^{M} \in R^{d_{t} \times M}$$，其中$$\mathbf{h}_{i}^{c} \in \mathcal{R}^{d_{t}}$$是$$T^c$$中的第 𝑖 个词表示。
+​	如图 4 所示，语义协编码器交互式地学习用户点击新闻$n^u$和候选新闻$n^c$的基于语义的表示。它旨在通过文本之间的语义相关性（$T^u$和$T^c$）更好地模拟用户对候选新闻的兴趣。我们首先独立学习文本$T^u$和$T^c$中单词的上下文表示。更具体地说，以文本$T^u$为例，我们首先通过词嵌入层将其转换为嵌入向量序列$\mathbf{T}_{u} \in \mathcal{R}^{d_{g} \times M}$，其中$d_g$表示词嵌入维度，𝑀表示$T^u$中的词数。接下来，由于局部和全局上下文对于语义建模 [33, 37] 都很重要，我们将 CNN 网络 [11] 和transformer网络 [27] 应用于$T^u$分别学习局部和全局上下文词表示，即$\mathbf{L}_{u} \in \mathcal{R}^{d_{t} \times M} $和$\mathbf{J}_{u} \in \mathcal{R}^{d_{t} \times M}$。然后，我们添加每个单词的局部和全局上下文表示，并获得它们的统一表示 $\mathbf{H}_{u}=\left\{\mathbf{h}_{i}^{u}\right\}_{i=1}^{M} \in \mathcal{R}^{d_{t} \times M}$，这里$\mathbf{h}_{i}^{u} \in \mathcal{R}^{d_{t}}$是$T^u$中第 𝑖 个词的表示。此外，对于$T^c$，我们可以以相同的方式学习上下文词表示$\mathbf{H}_{c}=\left\{\mathbf{h}_{i}^{c}\right\}_{i=1}^{M} \in R^{d_{t} \times M}$，其中$\mathbf{h}_{i}^{c} \in \mathcal{R}^{d_{t}}$是$T^c$中的第 𝑖 个词表示。
 
-​	最后，一般来说，点击新闻和候选新闻中的不同语义方面通常对于匹配用户兴趣与候选新闻[39]具有不同的重要性。例如，给定一条被点击的新闻“苹果计划生产头戴式耳机”，它包含两个语义方面，即“苹果的产品计划”和“耳机”。前者对于将用户兴趣与候选新闻“2020 年最佳耳机”相匹配很重要。因为对耳机感兴趣的用户可能会同时点击它们。而后者对于将用户兴趣与候选新闻“iPhone 12 案例买家指南”相匹配很重要。因为对Apple产品感兴趣的用户可能会阅读它们。因此，我们应用语义共同注意网络 [25, 40] 通过捕获文本之间的语义相关性以进行兴趣匹配，以交互方式学习新闻$$n^u$$和$$n^c$$的基于语义的表示。具体来说，我们首先计算亲和矩阵$$\mathrm{C}_{t} \in \mathcal{R}^{M \times M}$$测量文本中不同单词之间的语义相关性$$T^u$$和$$T^c$$：
+​	最后，一般来说，点击新闻和候选新闻中的不同语义方面通常对于匹配用户兴趣与候选新闻[39]具有不同的重要性。例如，给定一条被点击的新闻“苹果计划生产头戴式耳机”，它包含两个语义方面，即“苹果的产品计划”和“耳机”。前者对于将用户兴趣与候选新闻“2020 年最佳耳机”相匹配很重要。因为对耳机感兴趣的用户可能会同时点击它们。而后者对于将用户兴趣与候选新闻“iPhone 12 案例买家指南”相匹配很重要。因为对Apple产品感兴趣的用户可能会阅读它们。因此，我们应用语义共同注意网络 [25, 40] 通过捕获文本之间的语义相关性以进行兴趣匹配，以交互方式学习新闻$n^u$和$n^c$的基于语义的表示。具体来说，我们首先计算亲和矩阵$\mathrm{C}_{t} \in \mathcal{R}^{M \times M}$测量文本中不同单词之间的语义相关性$T^u$和$T^c$：
 $$
 \mathbf{C}_{t}=\mathbf{H}_{c}^{T} \mathbf{W}_{c}^{t} \mathbf{H}_{u}\tag {12}
 $$
-​	其中$$\mathbf{W}_{c}^{t} \in \mathcal{R}^{d_{t} \times d_{t}}$$是可训练的权重。 然后我们根据$$C_t$$分别计算用户点击新闻和候选新闻中单词的注意力向量$$\mathbf{b}^{u} \in \mathcal{R}^{M} $$和$$\mathbf{b}^{c} \in \mathcal{R}^{M}$$：
+​	其中$\mathbf{W}_{c}^{t} \in \mathcal{R}^{d_{t} \times d_{t}}$是可训练的权重。 然后我们根据$C_t$分别计算用户点击新闻和候选新闻中单词的注意力向量$\mathbf{b}^{u} \in \mathcal{R}^{M}$和$\mathbf{b}^{c} \in \mathcal{R}^{M}$：
 $$
-\mathbf{b}^{u} &=\mathbf{q}_{t}^{T} \cdot \tanh \left(\mathbf{W}_{s}^{t} \mathbf{H}_{u}+\mathbf{W}_{h}^{t} \mathbf{H}_{c} f\left(\mathbf{C}_{t}\right)\right) \\ \tag {13}
-$$
-
-$$
-\mathbf{b}^{c} &=\mathbf{q}_{t}^{T} \cdot \tanh \left(\mathbf{W}_{s}^{t} \mathbf{H}_{c}+\mathbf{W}_{h}^{t} \mathbf{H}_{u} f\left(\mathbf{C}_{t}^{T}\right)\right)\\ \tag{14}
+\mathbf{b}^{u}=\mathbf{q}_{t}^{T} \cdot \tanh \left(\mathbf{W}_{s}^{t} \mathbf{H}_{u}+\mathbf{W}_{h}^{t} \mathbf{H}_{c} f\left(\mathbf{C}_{t}\right)\right) \tag {13}
 $$
 
-​	其中$$\mathbf{q}_{t} \in \mathcal{R}^{d_{q}}$$是可训练的注意力查询，$$\mathbf{W}_{s}^{t} \in \mathcal{R}^{d_{q} \times d_{l}}$$和$$\mathbf{W}_{h}^{t} \in \mathcal{R}^{d_{q} \times d_{t}}$$是可训练参数。 最后，我们学习新闻$$n^u$$和$$n^c$$的基于语义的表示$$\mathbf{t}^{u} \in \mathcal{R}^{d_{t}}$$和$$\mathbf{t}^{c} \in \mathcal{R}^{d_{t}}$$：
+$$
+\mathbf{b}^{c}=\mathbf{q}_{t}^{T} \cdot \tanh \left(\mathbf{W}_{s}^{t} \mathbf{H}_{c}+\mathbf{W}_{h}^{t} \mathbf{H}_{u} f\left(\mathbf{C}_{t}^{T}\right)\right)\tag{14}
+$$
+
+​	其中$\mathbf{q}_{t} \in \mathcal{R}^{d_{q}}$是可训练的注意力查询，$\mathbf{W}_{s}^{t} \in \mathcal{R}^{d_{q} \times d_{l}}$和$\mathbf{W}_{h}^{t} \in \mathcal{R}^{d_{q} \times d_{t}}$是可训练参数。 最后，我们学习新闻$n^u$和$n^c$的基于语义的表示$\mathbf{t}^{u} \in \mathcal{R}^{d_{t}}$和$\mathbf{t}^{c} \in \mathcal{R}^{d_{t}}$：
 $$
 \mathbf{t}^{u}=\sum_{i=1}^{M} \beta_{i}^{u} \mathbf{h}_{i}^{u}, \quad \beta_{i}^{u}=\frac{\exp \left(b_{i}^{u}\right)}{\sum_{j=1}^{M} \exp \left(b_{j}^{u}\right)}\\ \tag {15}
 $$
@@ -120,15 +120,15 @@ $$
 \mathbf{t}^{c}=\sum_{i=1}^{M} \beta_{i}^{c} \mathbf{h}_{i}^{c}, \quad \beta_{i}^{c}=\frac{\exp \left(b_{i}^{c}\right)}{\sum_{j=1}^{M} \exp \left(b_{j}^{c}\right)}\tag{16}
 $$
 
-​	其中$$\beta_{i}^{u}$$和$$\beta_{i}^{c}$$是文本$$T^u$$和$$T^c$$中第 𝑖 个词的权重。
+​	其中$\beta_{i}^{u}$和$\beta_{i}^{c}$是文本$T^u$和$T^c$中第 𝑖 个词的权重。
 
 ### 3.4 用户-新闻 协同编码器
 
-​	我们介绍了我们提出的用户新闻协同编码器，它从用户点击的新闻和候选新闻的表示中学习候选新闻感知用户兴趣表示和用户感知候选新闻表示。通常，用户的兴趣是多样的，只有一部分可以与候选新闻匹配[20]。因此，学习候选新闻感知用户兴趣表示可以更好地建模用户兴趣以匹配候选新闻。类似地，候选新闻可能涵盖多个方面，用户可能只对其中的一部分感兴趣 [33, 34]。因此，学习用户感知的候选新闻表示也有利于兴趣匹配。因此，我们应用新闻协同注意网络来学习候选新闻感知用户表示和用户感知候选新闻表示。更具体地说，我们首先根据用户点击新闻$$\mathbf{N}_{u}=\left\{\mathbf{n}_{i}^{u}\right\}_{i=1}^{N} \in R^{d_{n} \times N}$$和候选新闻$$\mathbf{N}_{c}=\left\{\mathbf{n}_{i}^{c}\right\}_{i=1}^{N} \in R^{d_{n} \times N}$$的表示来计算亲和矩阵$$\mathrm{C}_{n} \in R^{N \times N}$$来衡量它们的相关性：
+​	我们介绍了我们提出的用户新闻协同编码器，它从用户点击的新闻和候选新闻的表示中学习候选新闻感知用户兴趣表示和用户感知候选新闻表示。通常，用户的兴趣是多样的，只有一部分可以与候选新闻匹配[20]。因此，学习候选新闻感知用户兴趣表示可以更好地建模用户兴趣以匹配候选新闻。类似地，候选新闻可能涵盖多个方面，用户可能只对其中的一部分感兴趣 [33, 34]。因此，学习用户感知的候选新闻表示也有利于兴趣匹配。因此，我们应用新闻协同注意网络来学习候选新闻感知用户表示和用户感知候选新闻表示。更具体地说，我们首先根据用户点击新闻$\mathbf{N}_{u}=\left\{\mathbf{n}_{i}^{u}\right\}_{i=1}^{N} \in R^{d_{n} \times N}$和候选新闻$\mathbf{N}_{c}=\left\{\mathbf{n}_{i}^{c}\right\}_{i=1}^{N} \in R^{d_{n} \times N}$的表示来计算亲和矩阵$\mathrm{C}_{n} \in R^{N \times N}$来衡量它们的相关性：
 $$
 \mathbf{C}_{n}=\mathbf{N}_{c}^{T} \mathbf{W}_{c}^{n} \mathbf{N}_{u}\tag{17}
 $$
-​	其中𝑁表示点击新闻的数量，$$\mathbf{n}_{i}^{u} \in \mathcal{R}^{d_{n}}$$表示用户第𝑖个点击新闻的表示，$$\mathbf{n}_{i}^{c} \in \mathcal{R}^{d_{n}}$$表示候选新闻的相应表示，$$\mathbf{W}_{c}^{n} \in \mathcal{R}^{d_{n} \times d_{n}}$$是可训练的权重。 然后我们根据亲和度矩阵计算用户点击新闻和候选新闻的表示形式的注意力向量$$\mathbf{r}^{u} \in R^{N}$$和$$\mathbf{r}^{c} \in R^{N}$$：
+​	其中𝑁表示点击新闻的数量，$\mathbf{n}_{i}^{u} \in \mathcal{R}^{d_{n}}$表示用户第𝑖个点击新闻的表示，$\mathbf{n}_{i}^{c} \in \mathcal{R}^{d_{n}}$表示候选新闻的相应表示，$\mathbf{W}_{c}^{n} \in \mathcal{R}^{d_{n} \times d_{n}}$是可训练的权重。 然后我们根据亲和度矩阵计算用户点击新闻和候选新闻的表示形式的注意力向量$\mathbf{r}^{u} \in R^{N}$和$\mathbf{r}^{c} \in R^{N}$：
 $$
 \mathbf{r}^{u}=\mathbf{q}_{n}^{T} \cdot \tanh \left(\mathbf{W}_{s}^{n} \mathbf{N}_{u}+\mathbf{W}_{h}^{n} \mathbf{N}_{c} f\left(\mathbf{C}_{n}\right)\right) \\ \tag {18}
 $$
@@ -137,7 +137,7 @@ $$
 \mathbf{r}^{c}=\mathbf{q}_{n}^{T} \cdot \tanh \left(\mathbf{W}_{s}^{n} \mathbf{N}_{c}+\mathbf{W}_{h}^{n} \mathbf{N}_{u} f\left(\mathbf{C}_{n}^{T}\right)\right)\tag{19}
 $$
 
-​	其中$$\mathbf{q}_{n} \in R^{d_{q}}$$表示可训练的注意力查询，$$\mathbf{W}_{s}^{n} \in\mathcal{R}^{d_{q} \times d_{n}}$$和$$ \mathbf{W}_{h}^{n} \in \mathcal{R}^{d_{q} \times d_{n}}$$是可训练的权重。 候选新闻感知用户表示$$\mathbf{u} \in \mathcal{R}^{d_{n}}$$和用户感知候选新闻表示$$\mathbf{c} \in \mathcal{R}^{d_{n}}$$公式化为：
+​	其中$\mathbf{q}_{n} \in R^{d_{q}}$表示可训练的注意力查询，$\mathbf{W}_{s}^{n} \in\mathcal{R}^{d_{q} \times d_{n}}$和$ \mathbf{W}_{h}^{n} \in \mathcal{R}^{d_{q} \times d_{n}}$是可训练的权重。 候选新闻感知用户表示$\mathbf{u} \in \mathcal{R}^{d_{n}}$和用户感知候选新闻表示$\mathbf{c} \in \mathcal{R}^{d_{n}}$公式化为：
 $$
 \mathbf{u}=\sum_{i=1}^{N} \gamma_{i}^{u} \mathbf{n}_{i}^{u}, \quad \gamma_{i}^{u}=\frac{\exp \left(r_{i}^{u}\right)}{\sum_{j=1}^{N} \exp \left(r_{j}^{u}\right)} \\ \tag{20}
 $$
@@ -146,17 +146,17 @@ $$
 \mathbf{c}=\sum_{i=1}^{N} \gamma_{i}^{c} \mathbf{n}_{i}^{c}, \quad \gamma_{i}^{c}=\frac{\exp \left(r_{i}^{c}\right)}{\sum_{j=1}^{N} \exp \left(r_{j}^{c}\right)} \tag{21}
 $$
 
-​	其中$$\gamma_{i}^{u}$$和$$\gamma_{i}^{c}$$分别表示$$n_i^u$$和$$n_i^c$$的注意力权重。
+​	其中$\gamma_{i}^{u}$和$\gamma_{i}^{c}$分别表示$n_i^u$和$n_i^c$的注意力权重。
 
 ### 3.5 关联建模与模型训练
 
-​	跟随 Okura 等人 [21]，我们采用候选新闻感知用户表示u和用户感知候选新闻表示c的点积来衡量用户兴趣和候选新闻内容的相关性𝑧∈R，即$$z=\mathbf{u}^{T} \cdot \mathbf{c}$$。 根据用户的相关性分数，进一步向用户推荐候选新闻。
+​	跟随 Okura 等人 [21]，我们采用候选新闻感知用户表示u和用户感知候选新闻表示c的点积来衡量用户兴趣和候选新闻内容的相关性𝑧∈R，即$z=\mathbf{u}^{T} \cdot \mathbf{c}$。 根据用户的相关性分数，进一步向用户推荐候选新闻。
 
 ​	接下来，我们介绍我们如何训练 KIM 方法。 我们利用负采样技术 [7, 9] 构建训练数据集 S，其中每个正样本与从同一新闻印象中随机选择的负样本相关联。 然后，我们应用 NCE 损失 [22] 来制定损失函数：
 $$
 \mathcal{L}=-\frac{1}{|\mathcal{S}|} \sum_{i=1}^{|\mathcal{S}|} \log \left(\frac{\exp \left(z_{+}^{i}\right)}{\exp \left(z_{+}^{i}\right)+\sum_{j=1}^{U} \exp \left(z_{j}^{i}\right)}\right)\tag{22}
 $$
-​	其中𝜎表示sigmoid函数，$$z_+^i$$表示第𝑖正样本的相关性分数，$$z_j^i$$表示为第𝑖正样本选择的第𝑗负样本的相关性分数。
+​	其中𝜎表示sigmoid函数，$z_+^i$表示第𝑖正样本的相关性分数，$z_j^i$表示为第𝑖正样本选择的第𝑗负样本的相关性分数。
 
 ​	最后，我们简要讨论 KIM 的计算复杂度。 与单独为用户和候选新闻建模的方法不同，KIM 协同计算点击新闻和候选新闻的表示，这需要更多的计算资源，因为这些表示无法提前准备好。 幸运的是，在实践中，我们可以离线计算不同新闻的上下文词嵌入 H 和实体嵌入 M 并缓存它们以节省计算成本。
 
