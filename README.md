@@ -9,5 +9,9 @@
 基于知识感知交互匹配的个性化新闻推荐
 ### AMM: Attentive Multi-field Matching for News Recommendation
 AMM：面向新闻推荐的注意力多字段匹配
+### Personalized News Recommendation: Methods and Challenges
+个性化新闻推荐：方法与挑战
+### Empowering News Recommendation with Pre-trained Language Models
+使用预训练的语言模型增强新闻推荐能力
 ## 注
 - 我是用typora进行的排版，直接用github预览可能会有一些问题。
